@@ -1,0 +1,43 @@
+name: CI
+on:
+  push: {}
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  build:
+    name: 🏗 Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: 🔧 Install modules
+        run: bun install
+
+      - name: ⚙️ Build app
+        run: bun run build
+
+  linters:
+    name: 🔬 Linters
+    if: success()
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: 🔧 Install modules
+        run: bun install
+
+      - name: 🔬 Run ESLint
+        run: bun run lint
+
+      - name: 🔬 Run Typecheck
+        run: bun run typecheck
