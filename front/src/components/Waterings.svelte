@@ -1,6 +1,8 @@
 <script>
   import { DateTime } from 'luxon';
   import { onMount } from 'svelte';
+  import userIcon from "@assets/icons/user.svg";
+  import dateIcon from "@assets/icons/date.svg";
 
   export let roomId;
   export let roomName;
@@ -23,11 +25,12 @@
 </script>
 
 <div>
-  <h2>{roomName}</h2>
+  <h2 class="font-bold text-center">{roomName}</h2>
   <ul>
     {#each waterings as watering}
-      <li>
-        Utilisateur: {watering.wateringUser} - Date: {formatDateTime(watering.wateringDate)}
+      <li class="flex">
+        <img class="w-3 mr-2" src={userIcon} alt="user icon">
+        {watering.wateringUser} - <img class="w-3 mx-2" src={dateIcon} alt="date icon">: {formatDateTime(watering.wateringDate)}
       </li>
     {/each}
   </ul>
