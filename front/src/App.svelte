@@ -1,17 +1,12 @@
 <script>
-  import svelteLogo from "@assets/svelte.svg";
-  import { Counter } from "@components";
+  import { Rooms } from "./components";
+  import kinobotaniqueLogo from "@assets/images/Kinobotanique.png";
+
 </script>
 
 <main>
-  <div>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="m-auto logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1 class="mb-10 text-4xl">Svelte Hackathon</h1>
-
-  <Counter />
+  <img class="w-1/2" src={kinobotaniqueLogo} alt="Kinobotanique">
+  <Rooms /> 
 </main>
 
 <style lang="scss">

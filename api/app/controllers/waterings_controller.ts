@@ -6,6 +6,15 @@ export default class WateringsController {
     const waterings = await Watering.all()
     return response.ok(waterings)
   }
+
+  async indexByRoom({ response, params }: HttpContext) {
+    console.log('tito')
+    const roomId = params.roomId
+    console.log('Room ID:', roomId)
+    const waterings = await Watering.query().where('room_id', roomId)
+    return response.ok(waterings)
+  }
+
   // async store({ request, response }: HttpContext) {
   //   const wateringSchema = schema.create({
   //     roomId: schema.number([rules.exists({ table: 'rooms', column: 'room_id' })]),
