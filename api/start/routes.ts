@@ -8,9 +8,13 @@
 */
 
 import router from '@adonisjs/core/services/router'
+const WateringController = () => import('../app/controllers/waterings_controller.js')
 
 router.get('/', async () => {
   return {
     hello: 'world',
   }
 })
+
+router.post('/waterings', 'WateringController.store')
+router.get('waterings', [WateringController, 'index'])
