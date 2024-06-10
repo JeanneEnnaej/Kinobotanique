@@ -8,7 +8,6 @@ export default class WateringsController {
   }
 
   async indexByRoom({ response, params }: HttpContext) {
-    console.log('tito')
     const roomId = params.roomId
     console.log('Room ID:', roomId)
     const waterings = await Watering.query().where('room_id', roomId)

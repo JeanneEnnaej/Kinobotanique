@@ -6,4 +6,18 @@ export default class RoomsController {
     const rooms = await Room.all()
     return response.ok(rooms)
   }
+
+  async createstore({ request, response }: HttpContext) {
+    const roomName = request.input('roomName')
+    console.log('toto')
+    if (!roomName || typeof roomName !== 'string') {
+      return response.badRequest({ message: 'Invalid room name' })
+    }
+
+    const room = new Room()
+    room.roomName = roomName
+    await room.save()
+
+    return response.created(room)
+  }
 }
