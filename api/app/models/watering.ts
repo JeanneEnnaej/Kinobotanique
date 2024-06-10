@@ -12,5 +12,5 @@ export default class Watering extends BaseModel {
   declare wateringDate: DateTime
 
   @column()
-  declare watering_user: string
+  declare wateringUser: string
 }

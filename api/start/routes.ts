@@ -17,9 +17,9 @@ router.get('/', async () => {
   }
 })
 
-router.post('/waterings', 'WateringController.store')
 router.get('waterings', [WateringController, 'index'])
 router.get('/rooms/:roomId/waterings', [WateringController, 'indexByRoom'])
+router.post('waterings', [WateringController, 'createstore'])
 
 router.get('rooms', [RoomController, 'index'])
 router.post('rooms', [RoomController, 'createstore'])

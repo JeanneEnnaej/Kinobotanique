@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Watering from '../models/watering.js'
+import { DateTime } from 'luxon'
 
 export default class WateringsController {
   async index({ response }: HttpContext) {
@@ -9,24 +10,24 @@ export default class WateringsController {
 
   async indexByRoom({ response, params }: HttpContext) {
     const roomId = params.roomId
-    console.log('Room ID:', roomId)
     const waterings = await Watering.query().where('room_id', roomId)
     return response.ok(waterings)
   }
 
-  // async store({ request, response }: HttpContext) {
-  //   const wateringSchema = schema.create({
-  //     roomId: schema.number([rules.exists({ table: 'rooms', column: 'room_id' })]),
-  //     userName: schema.string({ trim: true }),
-  //     wateringDate: schema.date({ format: 'yyyy-MM-dd HH:mm:ss' }, [
-  //       rules.beforeOrEqual(DateTime.local().toSQL()),
-  //     ]),
-  //   })
+  async createstore({ request, response }: HttpContext) {
+    // Accéder directement aux données de la requête
+    const roomId = request.input('roomId')
+    const wateringUser = request.input('wateringUser')
+    const wateringDate = request.input('wateringDate')
 
-  //   const payload = await request.validate({ schema: wateringSchema })
+    // Créer un nouvel arrosage sans validation
+    const watering = new Watering()
+    watering.roomId = roomId
+    watering.wateringUser = wateringUser
+    watering.wateringDate = DateTime.fromISO(wateringDate)
 
-  //   const watering = await Watering.create(payload)
+    await watering.save()
 
-  //   return response.created(watering)
-  // }
+    return response.created(watering)
+  }
 }
