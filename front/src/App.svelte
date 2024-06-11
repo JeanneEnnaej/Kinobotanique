@@ -1,5 +1,5 @@
 <script>
-  import { Rooms } from "./components";
+  import { Footer, Rooms } from "./components";
   import kinobotaniKLogo from "@assets/images/kinobotanik.svg";
   import destockImage from "@assets/images/fond.jpg";
 
@@ -12,6 +12,7 @@
   <img class="w-full max-h-40 md:max-h-96 object-cover" src={destockImage} alt="plants">
 
   <Rooms /> 
+  <Footer />
 </main>
 
 <style lang="scss">

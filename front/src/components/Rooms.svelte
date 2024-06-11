@@ -1,7 +1,6 @@
 <script>
   import { onMount } from 'svelte';
   import Waterings from './Waterings.svelte';
-  import doorIcon from "@assets/icons/door.svg";
 
   let rooms = [];
   let roomName = ''
@@ -37,13 +36,13 @@
   <div>
     <div class="flex justify-center mt-3">
       <form on:submit|preventDefault={addRoom}>
-        <input type="text" bind:value={roomName} placeholder="Nom de la salle" class="border border-green-500" />
-        <button type="submit">Ajouter une salle</button>
+        <input type="text" bind:value={roomName} placeholder="Nom de la salle" class="border-2 border-green-500 rounded-lg px-2 py-1" />
+        <button type="submit" class="bg-green-500 border-2 border-green-500 rounded-lg px-2 py-1 w-fit text-white">+ Ajouter une salle</button>
       </form>
     </div>
     <ul class="flex flex-wrap gap-5 justify-center p-5">
       {#each rooms as room}
-        <div class="rounded-lg p-5 bg-green-600 bg-opacity-30">
+        <div class="rounded-lg p-5 bg-gray-800 bg-opacity-40 w-full md:max-w-72">
           <Waterings roomId={room.roomId} roomName={room.roomName} />
         </div>
       {/each}
