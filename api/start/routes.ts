@@ -20,6 +20,7 @@ router.get('/', async () => {
 router.get('waterings', [WateringController, 'index'])
 router.get('/rooms/:roomId/waterings', [WateringController, 'indexByRoom'])
 router.post('waterings', [WateringController, 'createstore'])
+router.delete('/waterings/:id', [WateringController, 'destroy'])
 
 router.get('rooms', [RoomController, 'index'])
 router.post('rooms', [RoomController, 'createstore'])

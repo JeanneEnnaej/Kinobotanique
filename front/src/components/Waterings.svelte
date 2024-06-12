@@ -3,7 +3,8 @@
   import { onMount } from 'svelte';
   import userIcon from "@assets/icons/user.svg";
   import dateIcon from "@assets/icons/date.svg";
-  
+  import trashIcon from "@assets/icons/trash.svg";
+
   import { createEventDispatcher } from 'svelte';
 
   export let roomId;
@@ -14,10 +15,13 @@
   let wateringUser = '';
   let wateringDate = '';
   let showModal = false;
+  let daysSinceLastWatering = 0;
 
   async function fetchWaterings(roomId) {
     const response = await fetch(`http://localhost:5000/rooms/${roomId}/waterings`);
     waterings = await response.json();
+    sortWaterings(); 
+    calculateDaysSinceLastWatering();
   }
 
   onMount(() => {
@@ -43,6 +47,17 @@
     }
   }
 
+  async function deleteWatering(id) {
+    console.log(id)
+    const response = await fetch(`http://localhost:5000/waterings/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (response.ok) {
+      fetchWaterings(roomId);
+    }
+  }
+
   function openModal() {
     showModal = true;
   }
@@ -52,7 +67,25 @@
   }
 
   function formatDateTime(dateTimeStr) {
-    return DateTime.fromISO(dateTimeStr).toFormat('yyyy-MM-dd');
+    return DateTime.fromISO(dateTimeStr).setLocale('fr').toFormat('d MMMM');
+  }
+
+  function sortWaterings() {
+    waterings = waterings.sort((a, b) => Date.parse(a.wateringDate) - Date.parse(b.wateringDate)).slice(-3);
+  }
+
+  function calculateDaysSinceLastWatering() {
+    if (waterings.length > 0) {
+      const lastWateringDate = DateTime.fromISO(waterings[waterings.length - 1].wateringDate);
+      const now = DateTime.now();
+      daysSinceLastWatering = Math.floor(now.diff(lastWateringDate, 'days').days);
+    } else {
+      daysSinceLastWatering = 0;
+    }
+  }
+
+  function getDayText(days) {
+    return days === 1 ? 'jour' : 'jours';
   }
 </script>
 
@@ -66,11 +99,20 @@
           {watering.wateringUser} - 
           <img class="w-3 mx-2" src={dateIcon} alt="date icon">
           {formatDateTime(watering.wateringDate)}
+
+          <button on:click={() => deleteWatering(watering.wateringId)} class="ml-2">
+            <img class="w-3" src={trashIcon} alt="delete icon">
+          </button>
         </li>
       {/each}
     </ul>
+    {#if daysSinceLastWatering === 0}
+    <p class="text-center mb-4">Les plantes ont déjà été arrosées aujourd'hui</p>
   {:else}
-    <p class="text-center my-2">Les plantes de cette salle n'ont jamais été arrosées</p>
+    <p class="text-center mb-4">Dernier arrosage il y a {daysSinceLastWatering} {getDayText(daysSinceLastWatering)}</p>
+  {/if}
+  {:else}
+    <p class="text-center mb-4">Les plantes de cette salle n'ont pas encore été arrosées</p>
   {/if}
   <button on:click={openModal} class="bg-orange-300 rounded-lg px-2 py-1 w-fit self-center text-white mt-2">+ Ajouter un arrosage</button>
   {#if showModal}
@@ -87,9 +129,9 @@
             <label for="date"><img class="w-3 mr-2" src={dateIcon} alt="date icon"></label>
             <input id="date" type="date" bind:value={wateringDate} required  class="border w-full"/>
           </div>
-          <div class="flex justify-around mt-2">
-            <button type="submit">Ajouter</button>
-            <button type="button" on:click={closeModal}>Annuler</button>
+          <div class="flex justify-around mt-4">
+            <button type="submit" class="bg-green-500 rounded-lg px-3 py-1 w-fit text-white">Ajouter</button>
+            <button type="button" on:click={closeModal} class="bg-orange-300 rounded-lg px-3 py-1 w-fit text-white">Annuler</button>
           </div>
         </form>
       </div>

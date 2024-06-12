@@ -15,12 +15,10 @@ export default class WateringsController {
   }
 
   async createstore({ request, response }: HttpContext) {
-    // Accéder directement aux données de la requête
     const roomId = request.input('roomId')
     const wateringUser = request.input('wateringUser')
     const wateringDate = request.input('wateringDate')
 
-    // Créer un nouvel arrosage sans validation
     const watering = new Watering()
     watering.roomId = roomId
     watering.wateringUser = wateringUser
@@ -29,5 +27,11 @@ export default class WateringsController {
     await watering.save()
 
     return response.created(watering)
+  }
+
+  async destroy({ params, response }: HttpContext) {
+    const watering = await Watering.findOrFail(params.id)
+    await watering.delete()
+    return response.ok({ message: 'Arrosage supprimé avec succès' })
   }
 }
