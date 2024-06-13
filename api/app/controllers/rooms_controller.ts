@@ -7,26 +7,21 @@ export default class RoomsController {
     return response.ok(rooms)
   }
 
-  async createstore({ request, response }: HttpContext) {
+  async store({ request, response }: HttpContext) {
     const roomName = request.input('roomName')
-    console.log('toto')
+    console.log('toto', roomName)
     if (!roomName || typeof roomName !== 'string') {
       return response.badRequest({ message: 'Invalid room name' })
     }
 
     const room = new Room()
     room.roomName = roomName
-
+    room.save()
     return response.created(room)
   }
 
   async show({ params, response }: HttpContext) {
-    const room = await Room.find(params.roomId)
-
-    if (!room) {
-      return response.notFound({ error: 'Room not found' })
-    }
-
-    return response.ok(room.toJSON())
+    const room = await Room.find(params.id)
+    return response.ok(room)
   }
 }

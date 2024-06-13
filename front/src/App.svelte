@@ -3,11 +3,6 @@
   import kinobotaniKLogo from "@assets/images/kinobotanik.svg";
   import destockImage from "@assets/images/fond.jpg";
   import { Router, Route } from 'svelte-routing';
-
-  const routes = {
-    '/': Rooms,
-    '/rooms/:id': RoomShow
-  };
 </script>
 
 <main>
@@ -19,7 +14,9 @@
 
   <Router>
     <Route path="/" component={Rooms} />
-    <Route path="/rooms/:id" component={RoomShow} />
+    <Route path="/rooms/:id" let:params >
+      <RoomShow id={params.id} />
+    </Route>
   </Router>
 
   <Footer />

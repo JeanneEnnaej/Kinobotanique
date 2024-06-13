@@ -29,7 +29,6 @@
     }
   }
 
-
   onMount(fetchRooms);
 </script>
 
@@ -43,10 +42,9 @@
     </div>
     <ul class="flex flex-wrap gap-5 justify-center p-5">
       {#each rooms as room}
-        <div class="rounded-lg p-5 bg-gray-800 bg-opacity-40 w-full md:max-w-72">
+        <div class="rounded-lg p-5 bg-gray-800 bg-opacity-40 w-full md:max-w-72 flex flex-col">
           <Waterings roomId={room.roomId} roomName={room.roomName} />
-          <Link to={`/rooms/${room.roomId}`}>Voir les détails</Link>
-
+          <Link to={`/rooms/${room.roomId}`} state={{ roomId: room.roomId, roomName: room.roomName }} class="bg-orange-300 rounded-lg px-2 py-1 w-fit self-center text-white mt-2">Explorer la pièce</Link>
         </div>
       {/each}
     </ul>
