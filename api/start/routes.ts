@@ -24,3 +24,4 @@ router.delete('/waterings/:id', [WateringController, 'destroy'])
 
 router.get('rooms', [RoomController, 'index'])
 router.post('rooms', [RoomController, 'createstore'])
+router.get('/rooms/:id', [RoomController, 'show'])

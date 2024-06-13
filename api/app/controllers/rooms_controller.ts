@@ -16,8 +16,17 @@ export default class RoomsController {
 
     const room = new Room()
     room.roomName = roomName
-    await room.save()
 
     return response.created(room)
+  }
+
+  async show({ params, response }: HttpContext) {
+    const room = await Room.find(params.roomId)
+
+    if (!room) {
+      return response.notFound({ error: 'Room not found' })
+    }
+
+    return response.ok(room.toJSON())
   }
 }
