@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import Waterings from './Waterings.svelte';
+  import { Link } from 'svelte-routing';
 
   let rooms = [];
   let roomName = ''
@@ -44,7 +45,7 @@
       {#each rooms as room}
         <div class="rounded-lg p-5 bg-gray-800 bg-opacity-40 w-full md:max-w-72">
           <Waterings roomId={room.roomId} roomName={room.roomName} />
-          <a href={`/rooms/${room.roomId}`} class="block mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Voir les détails</a>
+          <Link to={`/rooms/${room.roomId}`}>Voir les détails</Link>
 
         </div>
       {/each}

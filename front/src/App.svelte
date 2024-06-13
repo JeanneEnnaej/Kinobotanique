@@ -1,8 +1,13 @@
 <script>
-  import { Footer, Rooms } from "./components";
+  import { Footer, RoomShow, Rooms } from "./components";
   import kinobotaniKLogo from "@assets/images/kinobotanik.svg";
   import destockImage from "@assets/images/fond.jpg";
+  import { Router, Route } from 'svelte-routing';
 
+  const routes = {
+    '/': Rooms,
+    '/rooms/:id': RoomShow
+  };
 </script>
 
 <main>
@@ -11,7 +16,12 @@
   </div>
   <img class="w-full max-h-40 md:max-h-96 object-cover" src={destockImage} alt="plants">
 
-  <Rooms />
+
+  <Router>
+    <Route path="/" component={Rooms} />
+    <Route path="/rooms/:id" component={RoomShow} />
+  </Router>
+
   <Footer />
 </main>
 
