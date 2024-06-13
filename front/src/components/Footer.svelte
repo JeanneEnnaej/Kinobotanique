@@ -4,7 +4,7 @@
 
 </script>
 
-<footer class="flex flex-col mt-2 md:fixed md:bottom-0 w-full">
+<footer class="flex flex-col mt-2 md:bottom-0 w-full">
   <img class="h-20 self-start" src={Plant1} alt="kinobotanik logo">
   <div class="bg-gray-800 text-white p-4">
     <div class="mx-auto text-center flex items-center justify-between">

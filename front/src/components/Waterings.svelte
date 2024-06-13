@@ -7,7 +7,6 @@
 
 
   export let roomId;
-  export let roomName;
 
   let waterings = [];
   let wateringUser = '';
@@ -22,9 +21,6 @@
     calculateDaysSinceLastWatering();
   }
 
-  onMount(() => {
-    fetchWaterings(roomId);
-  });
 
   async function addWatering() {
     const response = await fetch('http://localhost:5000/waterings', {
@@ -45,8 +41,19 @@
     }
   }
 
+  function closeModal() {
+    showModal = false;
+  }
+
+  function openModal() {
+    showModal = true;
+  }
+
+  onMount(() => {
+    fetchWaterings(roomId);
+  });
+
   async function deleteWatering(id) {
-    console.log(id)
     const response = await fetch(`http://localhost:5000/waterings/${id}`, {
       method: 'DELETE',
     });
@@ -54,14 +61,6 @@
     if (response.ok) {
       fetchWaterings(roomId);
     }
-  }
-
-  function openModal() {
-    showModal = true;
-  }
-
-  function closeModal() {
-    showModal = false;
   }
 
   function formatDateTime(dateTimeStr) {
@@ -88,7 +87,6 @@
 </script>
 
 <div class="flex flex-col h-full justify-between">
- <h2 class="font-bold text-center mb-2">{roomName}</h2>
   {#if waterings.length > 0}
     <ul>
       {#each waterings as watering}
@@ -97,7 +95,6 @@
           {watering.wateringUser} - 
           <img class="w-3 mx-2" src={dateIcon} alt="date icon">
           {formatDateTime(watering.wateringDate)}
-
           <button on:click={() => deleteWatering(watering.wateringId)} class="ml-2">
             <img class="w-3" src={trashIcon} alt="delete icon">
           </button>

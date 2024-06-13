@@ -9,7 +9,6 @@ export default class RoomsController {
 
   async store({ request, response }: HttpContext) {
     const roomName = request.input('roomName')
-    console.log('toto', roomName)
     if (!roomName || typeof roomName !== 'string') {
       return response.badRequest({ message: 'Invalid room name' })
     }
