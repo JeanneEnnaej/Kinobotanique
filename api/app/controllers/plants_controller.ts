@@ -48,4 +48,10 @@ export default class PlantsController {
 
     return response.header('Content-Type', 'image/jpeg').send(plant.photo)
   }
+
+  async destroy({ params, response }: HttpContext) {
+    const plant = await Plant.findOrFail(params.id)
+    await plant.delete()
+    return response.ok({ message: 'Plante supprimée avec succès' })
+  }
 }

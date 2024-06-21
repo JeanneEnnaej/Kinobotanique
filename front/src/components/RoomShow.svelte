@@ -3,6 +3,7 @@
   import { Link } from "svelte-routing";
   import GetImage from "./GetImage.svelte";
   import shelf from "@assets/images/shelf.svg";
+  import trashIcon from "@assets/icons/trash.svg";
 
   export let id
   let room = {}
@@ -50,6 +51,16 @@
     }
   }
 
+  async function deletePlant(id) {
+    const response = await fetch(`http://localhost:5000/plants/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (response.ok) {
+      fetchPlants(id);
+    }
+  }
+
   function handlePhotoChange(event) {
     const file = event.target.files[0];
     photo = file;
@@ -72,10 +83,20 @@
 
 <div class="flex flex-col">
   <h2 class="font-bold text-center mb-2">{room.roomName}</h2>
-  <div class="flex flex-wrap">
+  <div class="flex flex-col content-start">
+    <Link to={`/`} class="bg-orange-300 rounded-lg px-2 py-1 w-fit self-center text-white mt-2">Retour à la liste des salles</Link>
+    <button on:click={openModal} class="bg-purple-500 rounded-lg px-2 py-1 w-fit self-center text-white mt-2">+ Ajouter une plante</button>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-y-6 mt-6">
     {#each plants as plant}
       <div class="px-4 flex flex-col items-center">
-        <h2>{plant.name}</h2>
+        <div class="flex">
+          <h2>{plant.name}</h2>
+          <button on:click={() => deletePlant(plant.plantId)} class="ml-2">
+            <img class="w-3" src={trashIcon} alt="delete icon">
+          </button>
+        </div>
         <p class="flex flex-col text-center">
           <span>Fréquence d'arrosage :</span>
           <span>{plant.wateringFrequency}</span>
@@ -85,7 +106,6 @@
       </div>
     {/each}
   </div>
-  <button on:click={openModal} class="bg-purple-500 rounded-lg px-2 py-1 w-fit self-center text-white mt-2">+ Ajouter une plante</button>
   {#if showModal}
     <div class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
       <div class="bg-white p-6 rounded-lg shadow-xl">
@@ -114,6 +134,4 @@
       </div>
     </div>
   {/if}
-  <Link to={`/`} class="bg-orange-300 rounded-lg px-2 py-1 w-fit self-center text-white mt-2">Retour à la liste des salles</Link>
-
 </div>
