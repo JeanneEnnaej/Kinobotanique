@@ -5,11 +5,11 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
+      table.increments('plant_id').primary()
       table.integer('room_id').unsigned().references('rooms.room_id').onDelete('CASCADE')
       table.string('name').notNullable()
-      table.integer('watering_frequency')
-      table.string('photo').nullable()
+      table.string('watering_frequency')
+      table.specificType('photo', 'bytea').nullable()
       table.timestamp('created_at', { useTz: true }).defaultTo(this.now())
       table.timestamp('updated_at', { useTz: true }).defaultTo(this.now())
     })

@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Plant from '../models/plant.js'
-import Application from '@ioc:Adonis/core/Application'
+import fs from 'node:fs/promises'
 
 export default class PlantsController {
   async index({ response, params }: HttpContext) {
@@ -15,21 +15,37 @@ export default class PlantsController {
     plant.roomId = request.input('roomId')
     plant.wateringFrequency = request.input('wateringFrequency')
 
-    const photo = request.file('photo', {
-      extnames: ['jpg', 'png', 'jpeg'],
-      size: '2mb',
-    })
+    const photo = request.file('photo')
 
     if (photo) {
-      const fileName = `${Date.now()}.${photo.extname}`
-      await photo.move(Application.publicPath('uploads'), {
-        name: fileName,
-        overwrite: true,
-      })
-      plant.photo = `uploads/${fileName}`
+      if (photo.tmpPath) {
+        try {
+          const photoBuffer = await fs.readFile(photo.tmpPath)
+
+          plant.photo = photoBuffer
+        } catch (error) {
+          console.error('Erreur lors de la lecture du fichier', error)
+          return response.status(500).send('Erreur lors de la lecture du fichier')
+        }
+      } else {
+        console.error('Chemin temporaire du fichier non défini')
+        return response.status(400).send('Chemin temporaire du fichier non défini')
+      }
     }
 
     await plant.save()
+
     return response.created(plant)
+  }
+
+  async getImage({ params, response }: HttpContext) {
+    const plantId = params.plantId
+    const plant = await Plant.findOrFail(plantId)
+
+    if (!plant.photo) {
+      return response.status(404).send('Image not found')
+    }
+
+    return response.header('Content-Type', 'image/jpeg').send(plant.photo)
   }
 }

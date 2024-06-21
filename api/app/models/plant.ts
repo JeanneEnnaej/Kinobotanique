@@ -13,8 +13,8 @@ export default class Plant extends BaseModel {
   @column()
   declare wateringFrequency: string
 
-  @column()
-  declare photo: string
+  @column({ serializeAs: null })
+  declare photo: Buffer | Uint8Array | null
 
   @column()
   declare roomId: number

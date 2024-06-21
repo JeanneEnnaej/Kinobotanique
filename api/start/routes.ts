@@ -23,3 +23,4 @@ router.get('/rooms/:id', [RoomController, 'show'])
 
 router.get('/rooms/:roomId/plants', [PlantController, 'index'])
 router.post('plants', [PlantController, 'store'])
+router.get('/plants/:plantId/image', [PlantController, 'getImage'])
