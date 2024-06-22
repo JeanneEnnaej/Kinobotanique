@@ -91,6 +91,9 @@
   <div class="flex flex-wrap justify-center gap-y-6 mt-6">
     {#each plants as plant}
       <div class="px-4 flex flex-col items-center">
+        
+        <GetImage plantId={plant.plantId} />
+        <img class="w-full" src={shelf} alt="shelf">
         <div class="flex">
           <h2>{plant.name}</h2>
           <button on:click={() => deletePlant(plant.plantId)} class="ml-2">
@@ -101,19 +104,17 @@
           <span>Fréquence d'arrosage :</span>
           <span>{plant.wateringFrequency}</span>
         </p>
-        <GetImage plantId={plant.plantId} />
-        <img class="w-full" src={shelf} alt="shelf">
       </div>
     {/each}
   </div>
   {#if showModal}
     <div class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
       <div class="bg-white p-6 rounded-lg shadow-xl">
-        <h2 class="text-center mb-2">Ajouter un Arrosage</h2>
-        <form on:submit|preventDefault={addPlant}>
+        <h2 class="text-center mb-2">Ajouter une plante</h2>
+        <form on:submit|preventDefault={addPlant} >
           <div class="flex items-center mb-2">
             <label for="name">Name</label>
-            <input id="name" type="text" bind:value={name} required class="border" />
+            <input id="name" type="text" bind:value={name} required class="border w-full ml-6" />
           </div>
         
           <div class="flex items-center mb-2">

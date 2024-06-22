@@ -25,19 +25,19 @@ export default class PlantSeeder extends BaseSeeder {
       {
         name: 'Misère',
         roomId: 1,
-        wateringFrequency: 'Weekly',
+        wateringFrequency: 'Tous les 15 jours',
         photo: readImage('misere.jpg'),
       },
       {
         name: 'Coleus',
         roomId: 1,
-        wateringFrequency: 'Bi-weekly',
+        wateringFrequency: 'Une fois par semaine',
         photo: readImage('coleus.jpg'),
       },
       {
         name: 'Syngonium',
         roomId: 1,
-        wateringFrequency: 'Monthly',
+        wateringFrequency: 'Une fois par mois',
         photo: readImage('syngonium.jpg'),
       },
     ])
