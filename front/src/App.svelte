@@ -1,8 +1,8 @@
 <script>
-  import { Footer, Rooms } from "./components";
+  import { Footer, RoomShow, Rooms } from "./components";
   import kinobotaniKLogo from "@assets/images/kinobotanik.svg";
   import destockImage from "@assets/images/fond.jpg";
-
+  import { Router, Route } from 'svelte-routing';
 </script>
 
 <main>
@@ -11,19 +11,17 @@
   </div>
   <img class="w-full max-h-40 md:max-h-96 object-cover" src={destockImage} alt="plants">
 
-  <Rooms /> 
+
+  <Router>
+    <Route path="/" component={Rooms} />
+    <Route path="/rooms/:id" let:params >
+      <RoomShow id={params.id} />
+    </Route>
+  </Router>
+
   <Footer />
 </main>
 
 <style lang="scss">
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
 
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
 </style>

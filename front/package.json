@@ -24,6 +24,7 @@
     "node": "21.7.3"
   },
   "dependencies": {
-    "luxon": "^3.4.4"
+    "luxon": "^3.4.4",
+    "svelte-routing": "^2.13.0"
   }
 }

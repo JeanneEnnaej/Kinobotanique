@@ -14,7 +14,7 @@ export default class WateringsController {
     return response.ok(waterings)
   }
 
-  async createstore({ request, response }: HttpContext) {
+  async store({ request, response }: HttpContext) {
     const roomId = request.input('roomId')
     const wateringUser = request.input('wateringUser')
     const wateringDate = request.input('wateringDate')

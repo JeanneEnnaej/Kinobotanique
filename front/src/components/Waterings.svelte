@@ -5,11 +5,8 @@
   import dateIcon from "@assets/icons/date.svg";
   import trashIcon from "@assets/icons/trash.svg";
 
-  import { createEventDispatcher } from 'svelte';
 
   export let roomId;
-  export let roomName;
-  const dispatch = createEventDispatcher();
 
   let waterings = [];
   let wateringUser = '';
@@ -24,9 +21,6 @@
     calculateDaysSinceLastWatering();
   }
 
-  onMount(() => {
-    fetchWaterings(roomId);
-  });
 
   async function addWatering() {
     const response = await fetch('http://localhost:5000/waterings', {
@@ -47,8 +41,19 @@
     }
   }
 
+  function closeModal() {
+    showModal = false;
+  }
+
+  function openModal() {
+    showModal = true;
+  }
+
+  onMount(() => {
+    fetchWaterings(roomId);
+  });
+
   async function deleteWatering(id) {
-    console.log(id)
     const response = await fetch(`http://localhost:5000/waterings/${id}`, {
       method: 'DELETE',
     });
@@ -56,14 +61,6 @@
     if (response.ok) {
       fetchWaterings(roomId);
     }
-  }
-
-  function openModal() {
-    showModal = true;
-  }
-
-  function closeModal() {
-    showModal = false;
   }
 
   function formatDateTime(dateTimeStr) {
@@ -90,7 +87,6 @@
 </script>
 
 <div class="flex flex-col h-full justify-between">
-  <h2 class="font-bold text-center mb-2">{roomName}</h2>
   {#if waterings.length > 0}
     <ul>
       {#each waterings as watering}
@@ -99,11 +95,10 @@
           {watering.wateringUser} - 
           <img class="w-3 mx-2" src={dateIcon} alt="date icon">
           {formatDateTime(watering.wateringDate)}
-
           <button on:click={() => deleteWatering(watering.wateringId)} class="ml-2">
             <img class="w-3" src={trashIcon} alt="delete icon">
           </button>
-        </li>
+        </li> 
       {/each}
     </ul>
     {#if daysSinceLastWatering === 0}
@@ -114,7 +109,7 @@
   {:else}
     <p class="text-center mb-4">Les plantes de cette salle n'ont pas encore été arrosées</p>
   {/if}
-  <button on:click={openModal} class="bg-orange-300 rounded-lg px-2 py-1 w-fit self-center text-white mt-2">+ Ajouter un arrosage</button>
+  <button on:click={openModal} class="bg-purple-500 rounded-lg px-2 py-1 w-fit self-center text-white mt-2">+ Ajouter un arrosage</button>
   {#if showModal}
     <div class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
       <div class="bg-white p-6 rounded-lg shadow-xl">

@@ -1,5 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import Room from './room.js'
+
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
 export default class Watering extends BaseModel {
   @column({ isPrimary: true })
@@ -13,4 +16,7 @@ export default class Watering extends BaseModel {
 
   @column()
   declare wateringUser: string
+
+  @belongsTo(() => Room)
+  declare room: BelongsTo<typeof Room>
 }
